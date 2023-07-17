@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Story Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .story-container {
+      width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .story-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .story-author {
+      font-size: 16px;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .story-cover {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .story-content {
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+
+    .btn-refresh {
+      display: block;
+      width: 120px;
+      margin: 20px auto;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="story-container">
+    <h1>Random Story Viewer</h1>
+    <div id="storyDiv"></div>
+    <button class="btn-refresh" onclick="fetchRandomStory()">Get Random Story</button>
+  </div>
+
+  <script>
+    // Fetch a random story from the JSON data
+    function fetchRandomStory() {
+      const url = 'https://corsproxy.org/?' + encodeURIComponent('https://shortstoriesapi.gautampatil11.repl.co/random/');
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          renderStory(data.Random_Story);
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+    }
+
+    // Render the story in the HTML div
+    function renderStory(story) {
+      const storyDiv = document.getElementById('storyDiv');
+      storyDiv.innerHTML = `
+        <h2 class="story-title">${story.Name}</h2>
+        <p class="story-author">By ${story.Author}</p>
+        <img class="story-cover" src="${story.Cover}" alt="Story Cover">
+        <p class="story-content">${story.content}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
